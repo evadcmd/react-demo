@@ -1,16 +1,18 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
+import {useHistory, useLocation} from 'react-router-dom'
 
 import styled from 'styled-components'
-import {Email} from '@styled-icons/material-outlined/Email'
-import {Lock} from '@styled-icons/material'
 
 import Row from 'react-bootstrap/Row'
 import {default as BSCol} from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
+import {Email} from '@styled-icons/material-outlined/Email'
+import {Lock} from '@styled-icons/material'
+
 import {http} from '../util/web'
-import cookie from 'cookie'
+import {Auth, readAuthState} from '../authContext'
 
 const ScaledForm = styled(Form)`
     border: 1px solid silver;
@@ -29,14 +31,19 @@ export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
+    const {state} = useLocation()
+    const history = useHistory()
+
+    const auth = useContext(Auth)
     async function attemptAuth() {
-        const resp = await http.post('login', {username, password})
-        console.log(resp)
-        await console.log(document.cookie)
-        await console.log(cookie.parse(document.cookie))
+        await http.post('login', {username, password})
+        Object.assign(auth, readAuthState())
+        // state object may not exist. (precedence && > ||)
+        history.replace(state && state.anchor || {pathname: '/'})
     }
 
     return <ScaledForm>
+
         <FormGroup as={Row}>
             <Form.Label column sm='2'>
                 <Email />

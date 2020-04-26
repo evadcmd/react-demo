@@ -32,28 +32,28 @@ export const http = {}
 
 http.get = async (url, data, json=true) => {
     const resp = await fetch(url + queryString(data), CONFIG)
-    if (await !validate(resp))
+    if (!validate(resp))
         location.reload()
     return await json ? resp.json() : resp
 }
 
 http.post = async (url, data, json=true) => {
     const resp = await fetch(url, {method: 'POST', headers, body: JSON.stringify(data), ...CONFIG})
-    if (await !validate(resp))
+    if (!validate(resp))
         location.reload()
     return await json ? resp.json() : resp
 }
 
 http.put = async (url, data, json=true) => {
     const resp = await fetch(url, {method: 'POST', headers, body: JSON.stringify(data), ...CONFIG})
-    if (await !validate(resp))
+    if (!validate(resp))
         location.reload()
     return await json ? resp.json() : resp
 }
 
 http.get = async (url, data, json=true) => {
     const resp = await fetch(url + queryString(data), {method: 'DELETE', ...CONFIG})
-    if (await !validate(resp))
+    if (!validate(resp))
         location.reload()
     return await json ? resp.json() : resp
 }
