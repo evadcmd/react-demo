@@ -63,7 +63,7 @@ function compareFunc(a, b) {
     return key(a) - key(b)
 }
 
-export default function DatePicker({selectedDays, setModal}) {
+export default function DatePicker({selectedDays, setModal, isManager, isInvalid}) {
     const [show, setShow] = useState(false)
 
     function changeHandler(days) {
@@ -71,7 +71,7 @@ export default function DatePicker({selectedDays, setModal}) {
         const from = toMoment(days[0])
         const to = toMoment(days[days.length - 1])
         if (from.year() >= moment.year() && from.diff(to, 'days') < 366)
-            setModal(['indices, days'])
+            setModal({indices: days})
     }
 
     function remove(event) {
@@ -79,7 +79,7 @@ export default function DatePicker({selectedDays, setModal}) {
         const i = event.currentTarget.getAttribute('id')
         const days = [...selectedDays]
         days.splice(i, 1)
-        setModal(['indices', days])
+        setModal({indices: days})
     }
 
     const closeCalendar = useCallback(() => {
@@ -97,6 +97,11 @@ export default function DatePicker({selectedDays, setModal}) {
 
 
     return <div onClick={stopPropagation}>
-
+        <Input
+            className='form-control'
+            focus={show}
+            onClick={() => setShow(true)}
+            isInvalid={isInvalid}
+        />
     </div>
 }

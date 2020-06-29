@@ -12,7 +12,7 @@ import {Email} from '@styled-icons/material-outlined/Email'
 import {Lock} from '@styled-icons/material'
 
 import {http} from '../util/web'
-import {Auth, readAuthState} from '../authContext'
+import {Auth, readAuthState} from '../context/auth'
 
 const ScaledForm = styled(Form)`
     border: 1px solid silver;
